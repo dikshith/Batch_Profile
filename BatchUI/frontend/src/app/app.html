@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+@if (isAuthenticated()) {
+<div class="admin-dashboard">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">ScriptHub</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul>
+        <li
+          class="nav-item"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}"
+        >
+          <a routerLink="/" class="nav-link">
+            <span class="nav-icon">📋</span>
+            <span class="nav-text">Scripts</span>
+          </a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a routerLink="/runs" class="nav-link">
+            <span class="nav-icon">🏃</span>
+            <span class="nav-text">Runs</span>
+          </a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a routerLink="/cleanup" class="nav-link">
+            <span class="nav-icon">🧹</span>
+            <span class="nav-text">Cleanup</span>
+          </a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a routerLink="/user-info" class="nav-link">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">User Info</span>
+          </a>
+        </li>
+        <!-- <li class="nav-item" routerLinkActive="active">
+          <a routerLink="/logs" class="nav-link">
+            <span class="nav-icon">📝</span>
+            <span class="nav-text">Logs</span>
+          </a>
+        </li> -->
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <h1>Windows Scripts Dashboard</h1>
+        @if (currentUser()) {
+        <div class="user-info">
+          <span class="user-label">Logged in as:</span>
+          <span class="username">{{ currentUser()?.username }}</span>
+        </div>
+        }
+      </div>
+      <div class="header-right">
+        <div class="header-actions">
+          <button class="btn btn-outline" (click)="refresh()">
+            <span class="icon">🔄</span>
+            Refresh
+          </button>
+          <button class="btn btn-outline" (click)="logout()">
+            <span class="icon">🚪</span>
+            Logout
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+} @else {
+<router-outlet></router-outlet>
+}

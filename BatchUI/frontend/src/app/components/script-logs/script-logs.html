@@ -1,0 +1,48 @@
+<div class="logs-container">
+  <div class="header">
+    <h1>Script Logs</h1>
+    <div class="script-info" *ngIf="script">
+      <h2>{{ script.name }}</h2>
+      <p class="description">{{ script.description }}</p>
+    </div>
+  </div>
+
+  <div class="run-details" *ngIf="currentRun()">
+    <div class="status-card" [ngClass]="currentRun()?.status">
+      <div class="status-header">
+        <span class="status-badge">{{ currentRun()?.status | titlecase }}</span>
+        <span class="run-id">#{{ currentRun()?.id }}</span>
+      </div>
+      <div class="status-details">
+        <div class="detail-item">
+          <span class="label">Started:</span>
+          <span class="value">{{ formatDate(currentRun()?.startTime) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Duration:</span>
+          <span class="value"
+            >{{ formatDuration(currentRun()?.startTime || '',
+            currentRun()?.endTime || '') }}</span
+          >
+        </div>
+        <div class="detail-item" *ngIf="currentRun()?.endTime">
+          <span class="label">Ended:</span>
+          <span class="value">{{ formatDate(currentRun()?.endTime) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="logs-output">
+    <div class="logs-header">
+      <h3>Output</h3>
+    </div>
+    <pre class="logs-content" [class.has-error]="error">
+{{ logs() || 'No output yet...' }}</pre
+    >
+    <div class="error-section" *ngIf="error">
+      <h3>Error</h3>
+      <pre class="error-content">{{ error }}</pre>
+    </div>
+  </div>
+</div>

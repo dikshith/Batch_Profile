@@ -1,0 +1,33 @@
+<service>
+	<id>scriptsmanagerbackend.exe</id>
+	<name>Scripts Manager Backend</name>
+	<description>Node.js server responsible for managing / running scripts.</description>
+	<executable>C:\Program Files\nodejs\node.exe</executable>
+	<argument>--harmony</argument>
+	<argument>D:\batchui\Aug08\code\backend\node_modules\node-windows\lib\wrapper.js</argument>
+	<argument>--file</argument>
+	<argument>D:\batchui\Aug08\code\backend\src\index.js</argument>
+	<argument>--scriptoptions=</argument>
+	<argument>--log</argument>
+	<argument>Scripts Manager Backend wrapper</argument>
+	<argument>--grow</argument>
+	<argument>0.25</argument>
+	<argument>--wait</argument>
+	<argument>10</argument>
+	<argument>--maxrestarts</argument>
+	<argument>3</argument>
+	<argument>--abortonerror</argument>
+	<argument>n</argument>
+	<argument>--stopparentfirst</argument>
+	<argument>undefined</argument>
+	<argument>--maxretries</argument>
+	<argument>10</argument>
+	<logmode>rotate</logmode>
+	<stoptimeout>30sec</stoptimeout>
+	<serviceaccount>
+		<domain>LPTW-ADIXIT</domain>
+		<user>LocalSystem</user>
+		<password></password>
+	</serviceaccount>
+	<workingdirectory>D:\batchui\Aug08\code\backend</workingdirectory>
+</service>

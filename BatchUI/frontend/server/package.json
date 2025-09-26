@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "start:service": "npm install && node service.js install",
+    "stop:service": "npm install && node service.js uninstall"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "node-windows": "^1.0.0-beta.8"
+  }
+}

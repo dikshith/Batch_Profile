@@ -1,0 +1,296 @@
+<div class="scripts-section" *ngIf="!showAddModal()">
+  <div class="section-header">
+    <div class="header-left">
+      <h2>Scripts Management</h2>
+    </div>
+    <div class="header-actions">
+      @if (activeTab === 'scripts' && selectedScriptIds.size > 0) {
+      <button class="btn btn-success" (click)="runSelectedScripts()">
+        <span class="icon">▶️</span>
+        Run Selected ({{ selectedScriptIds.size }})
+      </button>
+      <button class="btn btn-danger" (click)="deleteSelectedScripts()">
+        <span class="icon">🗑️</span>
+        Delete Selected
+      </button>
+      } @if (activeTab === 'scripts') {
+      <button class="btn btn-primary" (click)="openAddModal()">
+        <span class="icon">➕</span>
+        Add Script
+      </button>
+      }
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'scripts'"
+      (click)="setActiveTab('scripts')"
+    >
+      <span class="icon">📜</span>
+      Scripts
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'files'"
+      (click)="setActiveTab('files')"
+    >
+      <span class="icon">📁</span>
+      Files
+    </button>
+  </div>
+
+  @if (isLoading()) {
+  <div class="loading-indicator">
+    <div class="spinner"></div>
+    <p>Loading {{ activeTab === 'scripts' ? 'scripts' : 'files' }}...</p>
+  </div>
+  } @else {
+
+  <!-- Scripts Tab Content -->
+  @if (activeTab === 'scripts') {
+  <div class="scripts-table-container">
+    @if (scripts().length > 0) {
+    <table class="scripts-table">
+      <thead>
+        <tr>
+          <th class="checkbox-col">
+            <input
+              type="checkbox"
+              [checked]="selectAll"
+              (change)="toggleSelectAll()"
+              class="checkbox"
+            />
+          </th>
+          <th>Script</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Last Run</th>
+          <!-- <th>Duration</th> -->
+          <th class="actions-col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (script of scripts(); track script.id) {
+        <tr
+          class="script-row"
+          [class.selected]="selectedScriptIds.has(script.id)"
+        >
+          <td class="checkbox-col">
+            <input
+              type="checkbox"
+              [checked]="selectedScriptIds.has(script.id)"
+              [disabled]="getScriptStatus(script.id) === 'running'"
+              (change)="toggleScriptSelection(script.id)"
+              class="checkbox"
+            />
+          </td>
+          <td class="script-info">
+            <div class="script-name" (click)="viewScriptLogs(script.id)">
+              {{ script.name }}
+            </div>
+            <div class="script-description">{{ script.description }}</div>
+            @if (script.filePath) {
+            <div class="script-path">{{ script.filePath }}</div>
+            }
+          </td>
+          <td class="script-type">
+            <span class="type-badge" [class]="script.type">
+              @if (script.type === 'powershell') { PowerShell } @else if
+              (script.type === 'bash') { 🐧 Bash } @else { 📁 Batch }
+            </span>
+          </td>
+          <td class="script-status">
+            <span class="status-badge" [class]="getScriptStatus(script.id)">
+              @switch (getScriptStatus(script.id)) { @case ('running') {
+              <span class="status-icon spinning">🔄</span>
+              Running } @case ('completed') {
+              <span class="status-icon">✅</span>
+              Completed } @case ('error') {
+              <span class="status-icon">❌</span>
+              Failed } @default {
+              <span class="status-icon">⏸️</span>
+              Ready } }
+            </span>
+            <div
+              class="script-status"
+              *ngIf="getScriptStatus(script.id) === 'running'"
+            >
+              <div class="progress-bar">
+                <div
+                  class="progress"
+                  [style.width.%]="getScriptProgress(script.id)"
+                ></div>
+              </div>
+              <span class="progress-text"
+                >{{ getScriptProgress(script.id) }}%</span
+              >
+            </div>
+          </td>
+          <td class="last-run">
+            <!--  {{ formatLastRun(getLatestRun(script.id)?.startTime) }} -->
+          </td>
+          <!-- <td class="duration">
+            {{ formatDuration(getLatestRun(script.id)?.duration) }}
+          </td> -->
+          <td class="actions-col">
+            <div class="action-buttons">
+              <button
+                class="btn btn-sm btn-primary"
+                [disabled]="getScriptStatus(script.id) === 'running'"
+                (click)="runScript(script.id)"
+                title="Run Script"
+              >
+                @if (getScriptStatus(script.id) === 'running') {
+                <span class="spinner-sm"></span>
+                } @else { ▶️ }
+              </button>
+
+              <button
+                class="btn btn-icon"
+                (click)="editScript(script.id)"
+                title="Edit Script"
+              >
+                ✏️
+              </button>
+
+              <button
+                class="btn btn-sm btn-danger"
+                [disabled]="getScriptStatus(script.id) === 'running'"
+                (click)="deleteScript(script)"
+                title="Delete Script"
+              >
+                🗑️
+              </button>
+
+              @if (getScriptStatus(script.id) === 'running') {
+              <button
+                class="btn btn-sm btn-primary"
+                (click)="stopScript(script.id)"
+              >
+                <span class="icon">⛔</span>
+                Stop
+              </button>
+              }
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    } @else {
+    <div class="no-scripts">
+      <div class="no-scripts-icon">📄</div>
+      <h3>No Scripts Found</h3>
+      <p>Start by adding your first automation script</p>
+      <button class="btn btn-primary" (click)="openAddModal()">
+        <span class="icon">➕</span>
+        Add Your First Script
+      </button>
+    </div>
+    }
+    <!-- Pagination Controls -->
+    @if (activeTab === 'scripts' && pagination()) {
+    <div class="pagination-controls">
+      <div class="pagination-bar">
+        <button
+          class="btn btn-sm"
+          (click)="setPage(1)"
+          [disabled]="(pagination()?.currentPage ?? 1) === 1"
+        >
+          ⏮️
+        </button>
+        <button
+          class="btn btn-sm"
+          (click)="setPage((pagination()?.currentPage ?? 1) - 1)"
+          [disabled]="!pagination()?.hasPrevPage"
+        >
+          ‹
+        </button>
+        <ng-container *ngIf="(pagination()?.totalPages ?? 1) <= 5">
+          <button
+            *ngFor="let page of [].constructor(pagination()?.totalPages ?? 1); let i = index"
+            class="btn btn-sm"
+            [class.btn-primary]="(pagination()?.currentPage ?? 1) === (i+1)"
+            (click)="setPage(i+1)"
+          >
+            {{ i+1 }}
+          </button>
+        </ng-container>
+        <ng-container *ngIf="(pagination()?.totalPages ?? 1) > 5">
+          <button
+            class="btn btn-sm"
+            [class.btn-primary]="(pagination()?.currentPage ?? 1) === 1"
+            (click)="setPage(1)"
+          >
+            1
+          </button>
+          <span *ngIf="(pagination()?.currentPage ?? 1) > 3">...</span>
+          <button
+            *ngIf="(pagination()?.currentPage ?? 1) > 2"
+            class="btn btn-sm"
+            (click)="setPage((pagination()?.currentPage ?? 1) - 1)"
+          >
+            {{ (pagination()?.currentPage ?? 1) - 1 }}
+          </button>
+          <button class="btn btn-sm btn-primary">
+            {{ pagination()?.currentPage ?? 1 }}
+          </button>
+          <button
+            *ngIf="(pagination()?.currentPage ?? 1) < (pagination()?.totalPages ?? 1) - 1"
+            class="btn btn-sm"
+            (click)="setPage((pagination()?.currentPage ?? 1) + 1)"
+          >
+            {{ (pagination()?.currentPage ?? 1) + 1 }}
+          </button>
+          <span
+            *ngIf="(pagination()?.currentPage ?? 1) < (pagination()?.totalPages ?? 1) - 2"
+            >...</span
+          >
+          <button
+            class="btn btn-sm"
+            [class.btn-primary]="(pagination()?.currentPage ?? 1) === (pagination()?.totalPages ?? 1)"
+            (click)="setPage(pagination()?.totalPages ?? 1)"
+          >
+            {{ pagination()?.totalPages ?? 1 }}
+          </button>
+        </ng-container>
+        <button
+          class="btn btn-sm"
+          (click)="setPage((pagination()?.currentPage ?? 1) + 1)"
+          [disabled]="!pagination()?.hasNextPage"
+        >
+          ›
+        </button>
+        <button
+          class="btn btn-sm"
+          (click)="setPage(pagination()?.totalPages ?? 1)"
+          [disabled]="(pagination()?.currentPage ?? 1) === (pagination()?.totalPages ?? 1)"
+        >
+          ⏭️
+        </button>
+      </div>
+      <div class="pagination-info">
+        Showing page {{ pagination()?.currentPage ?? 0 }} of {{
+        pagination()?.totalPages ?? 0 }} ({{ pagination()?.totalItems ?? 0 }}
+        items)
+      </div>
+    </div>
+    }
+  </div>
+  }
+
+  <!-- Files Tab Content -->
+  @if (activeTab === 'files') {
+  <div class="files-table-container">
+    <app-file-browser></app-file-browser>
+  </div>
+  } }
+</div>
+
+<app-script-add
+  [hidden]="!showAddModal()"
+  (close)="closeAddModal()"
+></app-script-add>

@@ -1,0 +1,157 @@
+<div class="results-section">
+  <div class="results-header">
+    <h2>Automated Cleanup Scheduler</h2>
+  </div>
+  <div *ngIf="schedulerLoading()" class="scheduler-loading">
+    <span class="spinner"></span> Loading scheduler status...
+  </div>
+  <div *ngIf="schedulerError()" class="error-message">
+    <div class="alert alert-error">
+      <strong>Error:</strong> {{ schedulerError() }}
+    </div>
+  </div>
+  <div *ngIf="schedulerStatus()" class="scheduler-status">
+    <div class="summary-cards">
+      <div class="summary-card">
+        <div class="card-label">Status</div>
+        <div class="card-value">
+          <span
+            [class]="schedulerStatus()!.isRunning ? 'badge-success' : 'badge-secondary'"
+          >
+            {{ schedulerStatus()!.isRunning ? 'Running' : 'Stopped' }}
+          </span>
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="card-label">Enabled</div>
+        <div class="card-value">
+          {{ schedulerStatus()!.config.enabled ? 'Yes' : 'No' }}
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="card-label">Interval</div>
+        <div class="card-value">
+          {{ (schedulerStatus()!.config.interval / 3600000) | number:'1.0-0' }}
+          hours
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="card-label">Days to Keep</div>
+        <div class="card-value">{{ schedulerStatus()!.config.days }}</div>
+      </div>
+      <div class="summary-card">
+        <div class="card-label">Status Filter</div>
+        <div class="card-value">
+          {{ schedulerStatus()!.config.status || 'All' }}
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="card-label">Dry Run</div>
+        <div class="card-value">
+          {{ schedulerStatus()!.config.dryRun ? 'Yes' : 'No' }}
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="card-label">Next Run</div>
+        <div class="card-value">
+          {{ schedulerStatus()!.nextRun ?
+          formatDateWithHour(schedulerStatus()!.nextRun) : 'N/A' }}
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="card-label">Last Run</div>
+        <div class="card-value">
+          {{ schedulerStatus()!.lastRun ?
+          formatDateWithHour(schedulerStatus()!.lastRun) : 'N/A' }}
+        </div>
+      </div>
+    </div>
+    <div class="form-actions" style="margin-top: 1.5rem">
+      <button
+        class="btn btn-primary"
+        (click)="startScheduler()"
+        [disabled]="schedulerStatus()!.isRunning || schedulerLoading()"
+      >
+        Start
+      </button>
+      <button
+        class="btn btn-danger"
+        (click)="stopScheduler()"
+        [disabled]="!schedulerStatus()!.isRunning || schedulerLoading()"
+      >
+        Stop
+      </button>
+    </div>
+    <div class="cleanup-form" style="margin-top: 2rem">
+      <div class="form-section">
+        <form
+          class="scheduler-config-form"
+          (ngSubmit)="updateSchedulerConfig()"
+        >
+          <h3>Update Scheduler Config</h3>
+          <div class="form-group">
+            <label>Enabled:</label>
+            <input
+              type="checkbox"
+              [(ngModel)]="schedulerConfig().enabled"
+              name="enabled"
+              class="form-control"
+            />
+          </div>
+          <div class="form-group">
+            <label>Interval (hours):</label>
+            <input
+              type="number"
+              min="1"
+              max="168"
+              [(ngModel)]="intervalHours"
+              name="intervalHours"
+              class="form-control"
+            />
+          </div>
+          <div class="form-group">
+            <label>Days to Keep:</label>
+            <input
+              type="number"
+              min="1"
+              max="365"
+              [(ngModel)]="schedulerConfig().days"
+              name="days"
+              class="form-control"
+            />
+          </div>
+          <div class="form-group">
+            <label>Status Filter:</label>
+            <select
+              [(ngModel)]="schedulerConfig().status"
+              name="status"
+              class="form-control"
+            >
+              <option [ngValue]="null">All Statuses</option>
+              <option value="completed">Completed</option>
+              <option value="failed">Failed</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Dry Run:</label>
+            <input
+              type="checkbox"
+              [(ngModel)]="schedulerConfig().dryRun"
+              name="dryRun"
+              class="form-control"
+            />
+          </div>
+          <div class="form-actions">
+            <button
+              class="btn btn-secondary"
+              type="submit"
+              [disabled]="schedulerLoading()"
+            >
+              Update Config
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

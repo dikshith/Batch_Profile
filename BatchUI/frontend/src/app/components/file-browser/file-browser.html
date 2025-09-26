@@ -1,0 +1,84 @@
+<div class="file-browser-section">
+  <div class="file-browser-header section-header">
+    <div class="header-left">
+      <h2>File Browser</h2>
+    </div>
+    <div class="header-actions">
+      <button
+        class="btn btn-sm"
+        (click)="goBack()"
+        [disabled]="!canGoBack()"
+        title="Back"
+      >
+        ⬅️
+      </button>
+      <button
+        class="btn btn-sm"
+        (click)="goForward()"
+        [disabled]="!canGoForward()"
+        title="Forward"
+      >
+        ➡️
+      </button>
+    </div>
+  </div>
+  <!-- <div class="file-browser-breadcrumb breadcrumb">
+    <ng-container *ngFor="let crumb of breadcrumb; let i = index">
+      <a href="javascript:void(0)" (click)="goToBreadcrumb(i)"
+        >{{ crumb || 'root' }}</a
+      >
+      <span *ngIf="i < breadcrumb.length - 1"> / </span>
+    </ng-container>
+  </div> -->
+  <div class="files-table-container">
+    <table class="files-table">
+      <thead>
+        <tr>
+          <th>File Name</th>
+          <th>Type</th>
+          <th>Size</th>
+          <th>Modified</th>
+          <th class="actions-col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let file of files()"
+          class="file-row"
+          [class.folder]="file.type === 'folder'"
+        >
+          <td class="file-info">
+            <span
+              *ngIf="file.type === 'folder'"
+              (click)="openFolder(file)"
+              class="file-name folder-link"
+              >📁 {{ file.name }}</span
+            >
+            <span *ngIf="file.type === 'file'" class="file-name"
+              >📄 {{ file.name }}</span
+            >
+          </td>
+          <td class="file-type">{{ file.type }}</td>
+          <td class="file-size">{{ file.type === 'file' ? file.size : '' }}</td>
+          <td class="file-mtime">{{ file.mtime }}</td>
+          <td class="actions-col">
+            <div class="action-buttons">
+              <button
+                class="btn btn-sm btn-danger"
+                (click)="deleteFile(file)"
+                title="Delete File"
+              >
+                🗑️
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="files().length === 0" class="no-files">
+      <div class="no-files-icon">📁</div>
+      <h3>No Files or Folders Found</h3>
+      <p>This directory is empty</p>
+    </div>
+  </div>
+</div>

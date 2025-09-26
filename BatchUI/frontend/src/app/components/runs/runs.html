@@ -1,0 +1,228 @@
+<div class="runs-section">
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">🏃</div>
+      <div class="stat-info">
+        <div class="stat-number">{{ runStats().total }}</div>
+        <div class="stat-label">Total Runs</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">✅</div>
+      <div class="stat-info">
+        <div class="stat-number">{{ runStats().completed }}</div>
+        <div class="stat-label">Completed</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">🔄</div>
+      <div class="stat-info">
+        <div class="stat-number">{{ runStats().running }}</div>
+        <div class="stat-label">Running</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="filters-section">
+    <div class="filters-header">
+      <h3>Filters</h3>
+      <button class="btn btn-outline btn-sm" (click)="clearFilters()">
+        <span class="icon">🗑️</span>
+        Clear Filters
+      </button>
+    </div>
+
+    <div class="filters-grid">
+      <div class="filter-group">
+        <label>Status</label>
+        <select
+          [(ngModel)]="filters().status"
+          (ngModelChange)="updateFilters()"
+          class="filter-select"
+        >
+          <option value="">All Statuses</option>
+          <option value="completed">Completed</option>
+          <option value="running">Running</option>
+          <option value="failed">Failed</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Script</label>
+        <select
+          [(ngModel)]="filters().scriptId"
+          (ngModelChange)="updateFilters()"
+          class="filter-select"
+        >
+          <option value="">All Scripts</option>
+          @for (script of scripts(); track script.id) {
+          <option [value]="script.id">{{ script.name }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>From Date</label>
+        <input
+          type="date"
+          [(ngModel)]="filters().dateFrom"
+          (ngModelChange)="updateFilters()"
+          class="filter-input"
+        />
+      </div>
+
+      <div class="filter-group">
+        <label>To Date</label>
+        <input
+          type="date"
+          [(ngModel)]="filters().dateTo"
+          (ngModelChange)="updateFilters()"
+          class="filter-input"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Runs Table -->
+  <div class="runs-table-section">
+    <div class="table-header">
+      <div class="table-info">
+        <h3>Script Runs</h3>
+        <p>Showing {{ paginatedRuns().length }} of {{ totalRuns() }} runs</p>
+      </div>
+
+      <div class="table-controls">
+        <label class="page-size-label">
+          Show:
+          <select
+            [ngModel]="pageSize()"
+            (ngModelChange)="changePageSize($event)"
+            class="page-size-select"
+          >
+            <option [value]="10">10</option>
+            <option [value]="25">25</option>
+            <option [value]="50">50</option>
+            <option [value]="100">100</option>
+          </select>
+          per page
+        </label>
+      </div>
+    </div>
+
+    @if (isLoading()) {
+    <div class="loading-indicator">
+      <div class="spinner"></div>
+      <p>Loading runs...</p>
+    </div>
+    } @else {
+    <div class="table-container">
+      @if (paginatedRuns().length > 0) {
+      <table class="runs-table">
+        <thead>
+          <tr>
+            <th class="sortable-header" (click)="updateSort('startTime')">
+              Start Time {{ getSortIcon('startTime') }}
+            </th>
+            <th class="sortable-header" (click)="updateSort('scriptName')">
+              Script {{ getSortIcon('scriptName') }}
+            </th>
+            <th class="sortable-header" (click)="updateSort('status')">
+              Status {{ getSortIcon('status') }}
+            </th>
+            <th class="sortable-header" (click)="updateSort('duration')">
+              Duration {{ getSortIcon('duration') }}
+            </th>
+            <th>End Time</th>
+            <th>Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (run of paginatedRuns(); track run.id) {
+          <tr class="run-row">
+            <td class="run-time">{{ formatDate(run.startTime) }}</td>
+            <td class="run-script">
+              <div class="script-name" (click)="goToScriptLogs(run.id)">
+                {{ getScriptName(run.scriptId) }}
+              </div>
+              <div class="script-id">ID: {{ run.scriptId }}</div>
+            </td>
+            <td class="run-status">
+              <span class="status-badge" [class]="run.status">
+                <span
+                  class="status-icon"
+                  [class.spinning]="run.status === 'running'"
+                >
+                  {{ getStatusIcon(run.status) }}
+                </span>
+                {{ run.status | titlecase }}
+              </span>
+            </td>
+            <td class="run-duration">{{ formatDuration(run.duration) }}</td>
+            <td class="run-end-time">
+              @if (run.endTime) { {{ formatDate(run.endTime) }} } @else { - }
+            </td>
+            <td class="run-output">
+              @if (run.output) {
+              <div class="output-preview" [title]="run.output">
+                {{ run.output.length > 50 ? run.output.substring(0, 50) + '...'
+                : run.output }}
+              </div>
+              } @else { - }
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+      } @else {
+      <div class="no-runs">
+        <div class="no-runs-icon">🏃</div>
+        <h3>No Runs Found</h3>
+        <p>No script runs match your current filters</p>
+      </div>
+      }
+    </div>
+
+    <!-- Pagination -->
+    @if (true) {
+    <div class="pagination">
+      <div class="pagination-info">
+        Showing {{ (page() - 1) * pageSize() + 1 }} to {{ Math.min(page() *
+        pageSize(), totalRuns()) }} of {{ totalRuns() }} entries
+      </div>
+
+      <div class="pagination-controls">
+        <button
+          class="btn btn-outline btn-sm"
+          [disabled]="page() === 1"
+          (click)="goToPreviousPage()"
+        >
+          Previous
+        </button>
+
+        @for (pageNum of getPageNumbers(); track pageNum) {
+        <button
+          class="btn btn-sm"
+          [class.btn-primary]="pageNum === page()"
+          [class.btn-outline]="pageNum !== page()"
+          (click)="goToPage(pageNum)"
+        >
+          {{ pageNum }}
+        </button>
+        }
+
+        <button
+          class="btn btn-outline btn-sm"
+          [disabled]="page() === totalPages()"
+          (click)="goToNextPage()"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+    } }
+  </div>
+</div>

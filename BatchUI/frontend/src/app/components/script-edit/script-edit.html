@@ -1,0 +1,76 @@
+<div class="edit-container">
+  <div class="edit-card">
+    <div class="edit-header">
+      <h1>Edit Script</h1>
+      <p>Modify script details</p>
+    </div>
+
+    @if (error()) {
+    <div class="error-message">{{ error() }}</div>
+    }
+
+    <form (ngSubmit)="onSubmit()" #editForm="ngForm">
+      <div class="form-group">
+        <label for="name">Script Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          [(ngModel)]="script().name"
+          class="form-control"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="type">Script Type</label>
+        <select
+          id="type"
+          name="type"
+          [(ngModel)]="script().type"
+          class="form-control"
+          required
+        >
+          <option value="powershell">PowerShell</option>
+          <option value="batch">Batch</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          name="description"
+          [(ngModel)]="script().description"
+          class="form-control"
+          rows="3"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="content">Script Content</label>
+        <textarea
+          id="content"
+          name="content"
+          [(ngModel)]="script().scriptContent"
+          class="form-control"
+          rows="10"
+          required
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" (click)="goBack()">
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!editForm.form.valid || isSubmitting"
+        >
+          {{ isSubmitting ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

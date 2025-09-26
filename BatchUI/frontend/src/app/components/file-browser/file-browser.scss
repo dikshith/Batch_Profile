@@ -1,0 +1,245 @@
+.file-browser-section {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    &.btn-danger {
+      background: #ef4444;
+      color: white;
+
+      &:hover:not(:disabled) {
+        background: #dc2626;
+      }
+    }
+  }
+
+  .file-browser-header {
+    padding: 24px 32px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8fafc;
+
+    .header-left {
+      h2 {
+        margin: 0 0 4px 0;
+        color: #1e293b;
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+    }
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+  }
+
+  .file-browser-breadcrumb {
+    padding: 16px 32px 0 32px;
+    font-size: 0.95rem;
+    color: #64748b;
+    a {
+      color: #3b82f6;
+      text-decoration: none;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    span {
+      color: #94a3b8;
+    }
+  }
+
+  .files-table-container {
+    overflow-x: auto;
+    padding: 0 32px 32px 32px;
+
+    .files-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      margin-top: 16px;
+
+      thead {
+        background: #f8fafc;
+        border-bottom: 2px solid #e2e8f0;
+        th {
+          padding: 14px 10px;
+          text-align: left;
+          font-weight: 600;
+          color: #374151;
+          font-size: 0.85rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          &.actions-col {
+            width: 100px;
+            text-align: center;
+          }
+        }
+      }
+      tbody {
+        .file-row {
+          border-bottom: 1px solid #f1f5f9;
+          transition: background 0.2s;
+          &:hover {
+            background: #f8fafc;
+          }
+          &.folder .file-name {
+            color: #3b82f6;
+            cursor: pointer;
+            font-weight: 500;
+          }
+          td {
+            padding: 14px 10px;
+            vertical-align: top;
+            &.actions-col {
+              text-align: center;
+            }
+          }
+          .file-info {
+            .file-name {
+              font-weight: 600;
+              color: #1e293b;
+              font-size: 0.98rem;
+              display: inline-block;
+              &:hover {
+                color: #2563eb;
+              }
+            }
+            .folder-link {
+              color: #3b82f6;
+              &:hover {
+                color: #2563eb;
+                text-decoration: underline;
+              }
+            }
+          }
+          .file-type {
+            font-size: 0.8rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+          .file-size {
+            color: #64748b;
+            font-size: 0.85rem;
+          }
+          .file-mtime {
+            color: #64748b;
+            font-size: 0.85rem;
+          }
+          .action-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+          }
+        }
+      }
+    }
+  }
+
+  .no-files {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    .no-files-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+    h3 {
+      margin: 0 0 8px 0;
+      color: #1e293b;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    p {
+      margin: 0;
+      color: #64748b;
+      font-size: 1rem;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 1024px) {
+  .file-browser-section .file-browser-header {
+    padding: 20px 24px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    .header-actions {
+      justify-content: flex-end;
+    }
+  }
+  .file-browser-section .file-browser-breadcrumb {
+    padding: 12px 24px 0 24px;
+  }
+  .file-browser-section .files-table-container {
+    padding: 0 24px 24px 24px;
+  }
+}
+@media (max-width: 768px) {
+  .file-browser-section {
+    margin: 0;
+    border-radius: 0;
+    .file-browser-header {
+      padding: 16px 12px;
+      .header-actions {
+        flex-wrap: wrap;
+        gap: 8px;
+        .btn {
+          flex: 1;
+          justify-content: center;
+          min-width: 90px;
+        }
+      }
+    }
+    .file-browser-breadcrumb {
+      padding: 10px 12px 0 12px;
+      font-size: 0.9rem;
+    }
+    .files-table-container {
+      padding: 0 12px 12px 12px;
+      .files-table {
+        font-size: 0.8rem;
+        thead th {
+          padding: 10px 6px;
+          font-size: 0.75rem;
+        }
+        tbody td {
+          padding: 10px 6px;
+        }
+      }
+    }
+    .no-files {
+      padding: 40px 10px;
+      .no-files-icon {
+        font-size: 2rem;
+      }
+      h3 {
+        font-size: 1.1rem;
+      }
+    }
+  }
+}

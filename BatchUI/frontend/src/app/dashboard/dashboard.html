@@ -1,0 +1,37 @@
+<!-- Stats Cards -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon">📄</div>
+    <div class="stat-info">
+      <div class="stat-number">{{ scriptsCount() }}</div>
+      <div class="stat-label">Total Scripts</div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">🔄</div>
+    <div class="stat-info">
+      <div class="stat-number">{{ runningScripts() }}</div>
+      <div class="stat-label">Running</div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">✅</div>
+    <div class="stat-info">
+      <div class="stat-number">{{ completedToday() }}</div>
+      <div class="stat-label">Completed Today</div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">❌</div>
+    <div class="stat-info">
+      <div class="stat-number">{{ failedScripts() }}</div>
+      <div class="stat-label">Failed</div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts Section -->
+<app-script-list></app-script-list>

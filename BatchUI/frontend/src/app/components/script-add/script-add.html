@@ -1,0 +1,165 @@
+<div class="add-script-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Add New Script</h2>
+      <button class="close-btn" (click)="onCancel()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Mode Selection -->
+      <div class="mode-selector">
+        <button
+          class="mode-btn"
+          [class.active]="addMode() === 'text'"
+          (click)="switchMode('text')"
+        >
+          📝 Write Script
+        </button>
+        <button
+          class="mode-btn"
+          [class.active]="addMode() === 'file'"
+          (click)="switchMode('file')"
+        >
+          📁 Upload File
+        </button>
+      </div>
+
+      <form (ngSubmit)="onSubmit()" #scriptForm="ngForm">
+        <!-- Error Message -->
+        <div *ngIf="errorMessage()" class="error-message script-add-error">
+          <div class="alert alert-error">
+            <strong>Error:</strong> {{ errorMessage() }}
+          </div>
+        </div>
+        <!-- Basic Information -->
+        @if (addMode() === 'file') {
+        <div class="form-group">
+          <label for="file">Script File/s *</label>
+          <div class="file-input-wrapper">
+            <div class="upload-options">
+              <label class="upload-option">
+                <input
+                  type="file"
+                  id="file"
+                  name="file"
+                  (change)="onFileSelected($event)"
+                  multiple
+                />
+                <span class="upload-label">📁 Select Files</span>
+              </label>
+              <label class="upload-option">
+                <input
+                  type="file"
+                  id="directory"
+                  name="directory"
+                  (change)="onDirectorySelected($event)"
+                  webkitdirectory
+                  directory
+                />
+                <span class="upload-label">📂 Select Directory</span>
+              </label>
+            </div>
+            @if (selectedFile.length > 0) {
+            <div class="selected-files">
+              <div class="files-header">
+                <span>Selected Files ({{ selectedFile.length }})</span>
+                <button type="button" class="clear-btn" (click)="clearFiles()">
+                  Clear All
+                </button>
+              </div>
+              @for (file of selectedFile; track file.webkitRelativePath ||
+              file.name; let i = $index) {
+              <div class="selected-file">
+                <div class="file-info">
+                  <span class="file-name"
+                    >{{ file.webkitRelativePath || file.name }}</span
+                  >
+                  <span class="file-size"
+                    >({{ (file.size / 1024).toFixed(1) }} KB)</span
+                  >
+                </div>
+                <button
+                  type="button"
+                  class="remove-btn"
+                  (click)="removeFile(i)"
+                  title="Remove file"
+                >
+                  ✕
+                </button>
+              </div>
+              }
+            </div>
+            }
+          </div>
+        </div>
+        } @else {
+        <div class="form-group">
+          <label for="name">Script Name *</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            [(ngModel)]="scriptData.name"
+            required
+            placeholder="Enter script name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            [(ngModel)]="scriptData.description"
+            rows="3"
+            placeholder="Describe what this script does"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="type">Script Type *</label>
+          <select id="type" name="type" [(ngModel)]="scriptData.type" required>
+            <option value="batch">Batch (.bat/.cmd)</option>
+            <option value="powershell">PowerShell (.ps1)</option>
+            <option value="bash">Bash (.sh)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="content">Script Content *</label>
+          <textarea
+            id="content"
+            name="content"
+            [(ngModel)]="scriptData.scriptContent"
+            required
+            rows="12"
+            placeholder="Enter your script content here..."
+            class="code-textarea"
+          ></textarea>
+        </div>
+        }
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="onCancel()"
+            [disabled]="isLoading"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="!isFormValid() || isLoading"
+          >
+            @if (isLoading) {
+            <span class="spinner"></span>
+            Creating... } @else { Create Script }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

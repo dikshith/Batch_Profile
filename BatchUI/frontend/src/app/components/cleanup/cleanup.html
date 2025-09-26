@@ -1,0 +1,27 @@
+<div class="cleanup-container">
+  <!-- Tab Bar -->
+  <div class="cleanup-tabs">
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab() === 'manual'"
+      (click)="setTab('manual')"
+    >
+      Manual Cleanup
+    </button>
+    <!-- <button
+      class="tab-btn"
+      [class.active]="selectedTab() === 'automated'"
+      (click)="setTab('automated')"
+    >
+      Automated Cleanup
+    </button> -->
+  </div>
+
+  <!-- Tab Content -->
+  <div class="tab-content">
+    <app-automated-cleanup
+      *ngIf="selectedTab() === 'automated'"
+    ></app-automated-cleanup>
+    <app-manual-cleanup *ngIf="selectedTab() === 'manual'"></app-manual-cleanup>
+  </div>
+</div>

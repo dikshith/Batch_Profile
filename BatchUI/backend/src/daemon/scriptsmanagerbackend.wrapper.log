@@ -1,0 +1,242 @@
+2025-09-08 17:06:25 - Starting C:\Program Files\nodejs\node.exe  --harmony D:\batchui\Aug08\code\backend\node_modules\node-windows\lib\wrapper.js --file D:\batchui\Aug08\code\backend\src\index.js --scriptoptions= --log "Scripts Manager Backend wrapper" --grow 0.25 --wait 10 --maxrestarts 3 --abortonerror n --stopparentfirst undefined --maxretries 10
+2025-09-08 17:06:25 - Started 17092
+2025-09-08 17:08:04 - Stopping scriptsmanagerbackend.exe
+2025-09-08 17:08:04 - ProcessKill 17092
+2025-09-08 17:08:04 - Found child process: 25792 Name: conhost.exe
+2025-09-08 17:08:04 - Found child process: 23692 Name: node.exe
+2025-09-08 17:08:04 - Stopping process 25792
+2025-09-08 17:08:04 - Send SIGINT 25792
+2025-09-08 17:08:05 - SIGINT to 25792 failed - Killing as fallback
+2025-09-08 17:08:05 - Stopping process 23692
+2025-09-08 17:08:05 - Send SIGINT 23692
+2025-09-08 17:08:05 - SIGINT to 23692 failed - Killing as fallback
+2025-09-08 17:08:05 - Stopping process 17092
+2025-09-08 17:08:05 - Send SIGINT 17092
+2025-09-08 17:08:05 - SIGINT to 17092 failed - Killing as fallback
+2025-09-08 17:08:05 - Finished scriptsmanagerbackend.exe
+2025-09-09 10:15:54 - Starting C:\Program Files\nodejs\node.exe  --harmony D:\batchui\Aug08\code\backend\node_modules\node-windows\lib\wrapper.js --file D:\batchui\Aug08\code\backend\src\index.js --scriptoptions= --log "Scripts Manager Backend wrapper" --grow 0.25 --wait 10 --maxrestarts 3 --abortonerror n --stopparentfirst undefined --maxretries 10
+2025-09-09 10:15:55 - Started 7836
+2025-09-09 18:50:48 - Stopping scriptsmanagerbackend.exe
+2025-09-09 18:50:48 - ProcessKill 7836
+2025-09-09 18:50:49 - Shutdown exception
+Message:Class not registered
+
+Stacktrace:   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   at System.Management.ManagementScope.InitializeGuts(Object o)
+   at System.Management.ManagementScope.Initialize()
+   at System.Management.ManagementObjectSearcher.Initialize()
+   at System.Management.ManagementObjectSearcher.Get()
+   at winsw.WrapperService.GetChildPids(Int32 pid)
+   at winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   at winsw.WrapperService.StopIt()
+   at winsw.WrapperService.OnShutdown()
+2025-09-09 21:38:31 - Starting C:\Program Files\nodejs\node.exe  --harmony D:\batchui\Aug08\code\backend\node_modules\node-windows\lib\wrapper.js --file D:\batchui\Aug08\code\backend\src\index.js --scriptoptions= --log "Scripts Manager Backend wrapper" --grow 0.25 --wait 10 --maxrestarts 3 --abortonerror n --stopparentfirst undefined --maxretries 10
+2025-09-09 21:38:31 - Started 7676
+2025-09-09 23:10:18 - Stopping scriptsmanagerbackend.exe
+2025-09-09 23:10:18 - ProcessKill 7676
+2025-09-09 23:10:21 - Shutdown exception
+Message:Class not registered
+
+Stacktrace:   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   at System.Management.ManagementScope.InitializeGuts(Object o)
+   at System.Management.ManagementScope.Initialize()
+   at System.Management.ManagementObjectSearcher.Initialize()
+   at System.Management.ManagementObjectSearcher.Get()
+   at winsw.WrapperService.GetChildPids(Int32 pid)
+   at winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   at winsw.WrapperService.StopIt()
+   at winsw.WrapperService.OnShutdown()
+2025-09-10 10:04:45 - Starting C:\Program Files\nodejs\node.exe  --harmony D:\batchui\Aug08\code\backend\node_modules\node-windows\lib\wrapper.js --file D:\batchui\Aug08\code\backend\src\index.js --scriptoptions= --log "Scripts Manager Backend wrapper" --grow 0.25 --wait 10 --maxrestarts 3 --abortonerror n --stopparentfirst undefined --maxretries 10
+2025-09-10 10:04:45 - Started 7596
+2025-09-10 18:27:33 - Stopping scriptsmanagerbackend.exe
+2025-09-10 18:27:33 - ProcessKill 7596
+2025-09-10 18:27:35 - Shutdown exception
+Message:Class not registered
+
+Stacktrace:   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   at System.Management.ManagementScope.InitializeGuts(Object o)
+   at System.Management.ManagementScope.Initialize()
+   at System.Management.ManagementObjectSearcher.Initialize()
+   at System.Management.ManagementObjectSearcher.Get()
+   at winsw.WrapperService.GetChildPids(Int32 pid)
+   at winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   at winsw.WrapperService.StopIt()
+   at winsw.WrapperService.OnShutdown()
+2025-09-10 20:38:17 - Starting C:\Program Files\nodejs\node.exe  --harmony D:\batchui\Aug08\code\backend\node_modules\node-windows\lib\wrapper.js --file D:\batchui\Aug08\code\backend\src\index.js --scriptoptions= --log "Scripts Manager Backend wrapper" --grow 0.25 --wait 10 --maxrestarts 3 --abortonerror n --stopparentfirst undefined --maxretries 10
+2025-09-10 20:38:17 - Started 7980
+2025-09-10 21:40:26 - Stopping scriptsmanagerbackend.exe
+2025-09-10 21:40:26 - ProcessKill 7980
+2025-09-10 21:40:29 - Shutdown exception
+Message:Class not registered
+
+Stacktrace:   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   at System.Management.ManagementScope.InitializeGuts(Object o)
+   at System.Management.ManagementScope.Initialize()
+   at System.Management.ManagementObjectSearcher.Initialize()
+   at System.Management.ManagementObjectSearcher.Get()
+   at winsw.WrapperService.GetChildPids(Int32 pid)
+   at winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   at winsw.WrapperService.StopIt()
+   at winsw.WrapperService.OnShutdown()
+2025-09-11 08:32:38 - Starting C:\Program Files\nodejs\node.exe  --harmony D:\batchui\Aug08\code\backend\node_modules\node-windows\lib\wrapper.js --file D:\batchui\Aug08\code\backend\src\index.js --scriptoptions= --log "Scripts Manager Backend wrapper" --grow 0.25 --wait 10 --maxrestarts 3 --abortonerror n --stopparentfirst undefined --maxretries 10
+2025-09-11 08:32:38 - Started 7968
+2025-09-11 19:06:31 - Stopping scriptsmanagerbackend.exe
+2025-09-11 19:06:31 - ProcessKill 7968
+2025-09-11 19:06:31 - Shutdown exception
+Message:Class not registered
+
+Stacktrace:   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   at System.Management.ManagementScope.InitializeGuts(Object o)
+   at System.Management.ManagementScope.Initialize()
+   at System.Management.ManagementObjectSearcher.Initialize()
+   at System.Management.ManagementObjectSearcher.Get()
+   at winsw.WrapperService.GetChildPids(Int32 pid)
+   at winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   at winsw.WrapperService.StopIt()
+   at winsw.WrapperService.OnShutdown()
+2025-09-12 17:24:02 - Starting C:\Program Files\nodejs\node.exe  --harmony D:\batchui\Aug08\code\backend\node_modules\node-windows\lib\wrapper.js --file D:\batchui\Aug08\code\backend\src\index.js --scriptoptions= --log "Scripts Manager Backend wrapper" --grow 0.25 --wait 10 --maxrestarts 3 --abortonerror n --stopparentfirst undefined --maxretries 10
+2025-09-12 17:24:02 - Started 7696
+2025-09-12 17:43:29 - Stopping scriptsmanagerbackend.exe
+2025-09-12 17:43:29 - ProcessKill 7696
+2025-09-12 17:43:34 - Shutdown exception
+Message:A system shutdown is in progress.
+
+Stacktrace:   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   at System.Management.ManagementScope.InitializeGuts(Object o)
+   at System.Management.ManagementScope.Initialize()
+   at System.Management.ManagementObjectSearcher.Initialize()
+   at System.Management.ManagementObjectSearcher.Get()
+   at winsw.WrapperService.GetChildPids(Int32 pid)
+   at winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   at winsw.WrapperService.StopIt()
+   at winsw.WrapperService.OnShutdown()
+2025-09-15 08:04:02 - Starting C:\Program Files\nodejs\node.exe  --harmony D:\batchui\Aug08\code\backend\node_modules\node-windows\lib\wrapper.js --file D:\batchui\Aug08\code\backend\src\index.js --scriptoptions= --log "Scripts Manager Backend wrapper" --grow 0.25 --wait 10 --maxrestarts 3 --abortonerror n --stopparentfirst undefined --maxretries 10
+2025-09-15 08:04:03 - Started 8004
+2025-09-15 08:46:45 - Stopping scriptsmanagerbackend.exe
+2025-09-15 08:46:45 - ProcessKill 8004
+2025-09-15 08:46:45 - Shutdown exception
+Message:Class not registered
+
+Stacktrace:   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   at System.Management.ManagementScope.InitializeGuts(Object o)
+   at System.Management.ManagementScope.Initialize()
+   at System.Management.ManagementObjectSearcher.Initialize()
+   at System.Management.ManagementObjectSearcher.Get()
+   at winsw.WrapperService.GetChildPids(Int32 pid)
+   at winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   at winsw.WrapperService.StopIt()
+   at winsw.WrapperService.OnShutdown()
+2025-09-15 14:43:34 - Starting C:\Program Files\nodejs\node.exe  --harmony D:\batchui\Aug08\code\backend\node_modules\node-windows\lib\wrapper.js --file D:\batchui\Aug08\code\backend\src\index.js --scriptoptions= --log "Scripts Manager Backend wrapper" --grow 0.25 --wait 10 --maxrestarts 3 --abortonerror n --stopparentfirst undefined --maxretries 10
+2025-09-15 14:43:34 - Started 7652
+2025-09-15 15:01:03 - Stopping scriptsmanagerbackend.exe
+2025-09-15 15:01:03 - ProcessKill 7652
+2025-09-15 15:01:03 - Shutdown exception
+Message:A system shutdown is in progress.
+
+Stacktrace:   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   at System.Management.ManagementScope.InitializeGuts(Object o)
+   at System.Management.ManagementScope.Initialize()
+   at System.Management.ManagementObjectSearcher.Initialize()
+   at System.Management.ManagementObjectSearcher.Get()
+   at winsw.WrapperService.GetChildPids(Int32 pid)
+   at winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   at winsw.WrapperService.StopIt()
+   at winsw.WrapperService.OnShutdown()
+2025-09-17 05:58:22 - Starting C:\Program Files\nodejs\node.exe  --harmony D:\batchui\Aug08\code\backend\node_modules\node-windows\lib\wrapper.js --file D:\batchui\Aug08\code\backend\src\index.js --scriptoptions= --log "Scripts Manager Backend wrapper" --grow 0.25 --wait 10 --maxrestarts 3 --abortonerror n --stopparentfirst undefined --maxretries 10
+2025-09-17 05:58:22 - Started 6524
+2025-09-17 22:25:39 - Stopping scriptsmanagerbackend.exe
+2025-09-17 22:25:39 - ProcessKill 6524
+2025-09-17 22:25:39 - Shutdown exception
+Message:Class not registered
+
+Stacktrace:   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   at System.Management.ManagementScope.InitializeGuts(Object o)
+   at System.Management.ManagementScope.Initialize()
+   at System.Management.ManagementObjectSearcher.Initialize()
+   at System.Management.ManagementObjectSearcher.Get()
+   at winsw.WrapperService.GetChildPids(Int32 pid)
+   at winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   at winsw.WrapperService.StopIt()
+   at winsw.WrapperService.OnShutdown()
+2025-09-18 07:42:35 - Starting C:\Program Files\nodejs\node.exe  --harmony D:\batchui\Aug08\code\backend\node_modules\node-windows\lib\wrapper.js --file D:\batchui\Aug08\code\backend\src\index.js --scriptoptions= --log "Scripts Manager Backend wrapper" --grow 0.25 --wait 10 --maxrestarts 3 --abortonerror n --stopparentfirst undefined --maxretries 10
+2025-09-18 07:42:35 - Started 7684
+2025-09-18 18:30:10 - Stopping scriptsmanagerbackend.exe
+2025-09-18 18:30:10 - ProcessKill 7684
+2025-09-18 18:30:11 - Shutdown exception
+Message:Class not registered
+
+Stacktrace:   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   at System.Management.ManagementScope.InitializeGuts(Object o)
+   at System.Management.ManagementScope.Initialize()
+   at System.Management.ManagementObjectSearcher.Initialize()
+   at System.Management.ManagementObjectSearcher.Get()
+   at winsw.WrapperService.GetChildPids(Int32 pid)
+   at winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   at winsw.WrapperService.StopIt()
+   at winsw.WrapperService.OnShutdown()
+2025-09-18 18:32:30 - Starting C:\Program Files\nodejs\node.exe  --harmony D:\batchui\Aug08\code\backend\node_modules\node-windows\lib\wrapper.js --file D:\batchui\Aug08\code\backend\src\index.js --scriptoptions= --log "Scripts Manager Backend wrapper" --grow 0.25 --wait 10 --maxrestarts 3 --abortonerror n --stopparentfirst undefined --maxretries 10
+2025-09-18 18:32:30 - Started 7792
+2025-09-18 18:54:17 - Stopping scriptsmanagerbackend.exe
+2025-09-18 18:54:17 - ProcessKill 7792
+2025-09-18 18:54:17 - Shutdown exception
+Message:A system shutdown is in progress.
+
+Stacktrace:   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   at System.Management.ManagementScope.InitializeGuts(Object o)
+   at System.Management.ManagementScope.Initialize()
+   at System.Management.ManagementObjectSearcher.Initialize()
+   at System.Management.ManagementObjectSearcher.Get()
+   at winsw.WrapperService.GetChildPids(Int32 pid)
+   at winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   at winsw.WrapperService.StopIt()
+   at winsw.WrapperService.OnShutdown()
+2025-09-19 10:40:53 - Starting C:\Program Files\nodejs\node.exe  --harmony D:\batchui\Aug08\code\backend\node_modules\node-windows\lib\wrapper.js --file D:\batchui\Aug08\code\backend\src\index.js --scriptoptions= --log "Scripts Manager Backend wrapper" --grow 0.25 --wait 10 --maxrestarts 3 --abortonerror n --stopparentfirst undefined --maxretries 10
+2025-09-19 10:40:53 - Started 7752
+2025-09-19 21:12:43 - Stopping scriptsmanagerbackend.exe
+2025-09-19 21:12:43 - ProcessKill 7752
+2025-09-19 21:12:44 - Shutdown exception
+Message:Class not registered
+
+Stacktrace:   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   at System.Management.ManagementScope.InitializeGuts(Object o)
+   at System.Management.ManagementScope.Initialize()
+   at System.Management.ManagementObjectSearcher.Initialize()
+   at System.Management.ManagementObjectSearcher.Get()
+   at winsw.WrapperService.GetChildPids(Int32 pid)
+   at winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   at winsw.WrapperService.StopIt()
+   at winsw.WrapperService.OnShutdown()
+2025-09-24 16:09:03 - Starting C:\Program Files\nodejs\node.exe  --harmony D:\batchui\Aug08\code\backend\node_modules\node-windows\lib\wrapper.js --file D:\batchui\Aug08\code\backend\src\index.js --scriptoptions= --log "Scripts Manager Backend wrapper" --grow 0.25 --wait 10 --maxrestarts 3 --abortonerror n --stopparentfirst undefined --maxretries 10
+2025-09-24 16:09:03 - Started 7912
+2025-09-24 21:14:13 - Stopping scriptsmanagerbackend.exe
+2025-09-24 21:14:13 - ProcessKill 7912
+2025-09-24 21:14:14 - Shutdown exception
+Message:Class not registered
+
+Stacktrace:   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   at System.Management.ManagementScope.InitializeGuts(Object o)
+   at System.Management.ManagementScope.Initialize()
+   at System.Management.ManagementObjectSearcher.Initialize()
+   at System.Management.ManagementObjectSearcher.Get()
+   at winsw.WrapperService.GetChildPids(Int32 pid)
+   at winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   at winsw.WrapperService.StopIt()
+   at winsw.WrapperService.OnShutdown()
+2025-09-25 07:05:25 - Starting C:\Program Files\nodejs\node.exe  --harmony D:\batchui\Aug08\code\backend\node_modules\node-windows\lib\wrapper.js --file D:\batchui\Aug08\code\backend\src\index.js --scriptoptions= --log "Scripts Manager Backend wrapper" --grow 0.25 --wait 10 --maxrestarts 3 --abortonerror n --stopparentfirst undefined --maxretries 10
+2025-09-25 07:05:25 - Started 7612
+2025-09-25 21:40:05 - Stopping scriptsmanagerbackend.exe
+2025-09-25 21:40:05 - ProcessKill 7612
+2025-09-25 21:40:06 - Shutdown exception
+Message:Class not registered
+
+Stacktrace:   at System.Runtime.InteropServices.Marshal.ThrowExceptionForHRInternal(Int32 errorCode, IntPtr errorInfo)
+   at System.Management.ManagementScope.InitializeGuts(Object o)
+   at System.Management.ManagementScope.Initialize()
+   at System.Management.ManagementObjectSearcher.Initialize()
+   at System.Management.ManagementObjectSearcher.Get()
+   at winsw.WrapperService.GetChildPids(Int32 pid)
+   at winsw.WrapperService.StopProcessAndChildren(Int32 pid)
+   at winsw.WrapperService.StopIt()
+   at winsw.WrapperService.OnShutdown()
+2025-09-26 07:10:45 - Starting C:\Program Files\nodejs\node.exe  --harmony D:\batchui\Aug08\code\backend\node_modules\node-windows\lib\wrapper.js --file D:\batchui\Aug08\code\backend\src\index.js --scriptoptions= --log "Scripts Manager Backend wrapper" --grow 0.25 --wait 10 --maxrestarts 3 --abortonerror n --stopparentfirst undefined --maxretries 10
+2025-09-26 07:10:45 - Started 7684

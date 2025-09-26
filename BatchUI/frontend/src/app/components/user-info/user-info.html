@@ -1,0 +1,253 @@
+<div class="user-info-container">
+  <!-- Tab Bar -->
+  <div class="user-info-tabs">
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab() === 'info'"
+      (click)="setTab('info')"
+    >
+      User Info
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab() === 'credentials'"
+      (click)="setTab('credentials')"
+    >
+      Change Credentials
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab() === 'create'"
+      (click)="setTab('create')"
+    >
+      Create User
+    </button>
+  </div>
+
+  <!-- Tab Content -->
+  <div class="tab-content">
+    <!-- User Info Tab -->
+    <div *ngIf="selectedTab() === 'info'" class="user-info-section">
+      <div class="results-section">
+        <div class="results-header">
+          <h2>Current User Information</h2>
+        </div>
+
+        <div *ngIf="userService.getIsLoading()()" class="loading-section">
+          <span class="spinner"></span> Loading user information...
+        </div>
+
+        <div *ngIf="userService.getError()()" class="error-message">
+          <div class="alert alert-error">
+            <strong>Error:</strong> {{ userService.getError()() }}
+          </div>
+        </div>
+
+        <div *ngIf="userService.getCurrentUser()()" class="user-details">
+          <div class="summary-cards">
+            <div class="summary-card">
+              <div class="card-label">User ID</div>
+              <div class="card-value">
+                {{ userService.getCurrentUser()()!.id }}
+              </div>
+            </div>
+            <div class="summary-card">
+              <div class="card-label">Username</div>
+              <div class="card-value">
+                {{ userService.getCurrentUser()()!.username }}
+              </div>
+            </div>
+            <div class="summary-card">
+              <div class="card-label">Status</div>
+              <div class="card-value">
+                <span
+                  [class]="userService.getCurrentUser()()!.isActive ? 'badge-success' : 'badge-error'"
+                >
+                  {{ userService.getCurrentUser()()!.isActive ? 'Active' :
+                  'Inactive' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          *ngIf="!userService.getCurrentUser()() && !userService.getIsLoading()()"
+          class="no-data"
+        >
+          <p>
+            No user information available. Please refresh to load user data.
+          </p>
+          <button class="btn btn-primary" (click)="loadUserInfo()">
+            Refresh User Info
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Change Credentials Tab -->
+    <div *ngIf="selectedTab() === 'credentials'" class="credentials-section">
+      <div class="cleanup-form">
+        <div class="form-section">
+          <h3>Update Credentials</h3>
+          <p class="form-description">
+            Change your username and password. Both fields are required.
+          </p>
+
+          <form (ngSubmit)="updateCredentials()" #credentialsForm="ngForm">
+            <div class="form-group">
+              <label for="newUsername">New Username</label>
+              <input
+                type="text"
+                id="newUsername"
+                name="newUsername"
+                [(ngModel)]="newUsername"
+                class="form-control"
+                placeholder="Enter new username"
+                required
+              />
+              <small>Enter your new username</small>
+            </div>
+
+            <div class="form-group">
+              <label for="newPassword">New Password</label>
+              <input
+                type="password"
+                id="newPassword"
+                name="newPassword"
+                [(ngModel)]="newPassword"
+                class="form-control"
+                placeholder="Enter new password"
+                required
+              />
+              <small>Enter your new password</small>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                [(ngModel)]="confirmPassword"
+                class="form-control"
+                placeholder="Confirm new password"
+                required
+              />
+              <small>Please confirm your new password</small>
+            </div>
+
+            <div *ngIf="credentialsError()" class="error-message">
+              <div class="alert alert-error">
+                <strong>Error:</strong> {{ credentialsError() }}
+              </div>
+            </div>
+
+            <div *ngIf="credentialsSuccess()" class="success-message">
+              <div class="alert alert-success">
+                <strong>Success:</strong> {{ credentialsSuccess() }}
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="!isCredentialsFormValid() || userService.getIsLoading()()"
+              >
+                <span
+                  *ngIf="userService.getIsLoading()()"
+                  class="spinner"
+                ></span>
+                {{ userService.getIsLoading()() ? 'Updating...' : 'Update
+                Credentials' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create User Tab -->
+    <div *ngIf="selectedTab() === 'create'" class="credentials-section">
+      <div class="cleanup-form">
+        <div class="form-section">
+          <h3>Create New User</h3>
+          <p class="form-description">
+            Create a new user by providing a username and password.
+          </p>
+
+          <form (ngSubmit)="createNewUser()" #createUserForm="ngForm">
+            <div class="form-group">
+              <label for="createUsername">Username</label>
+              <input
+                type="text"
+                id="createUsername"
+                name="createUsername"
+                [(ngModel)]="createUsername"
+                class="form-control"
+                placeholder="Enter username"
+                required
+              />
+              <small>Choose a username for the new user</small>
+            </div>
+
+            <div class="form-group">
+              <label for="createPassword">Password</label>
+              <input
+                type="password"
+                id="createPassword"
+                name="createPassword"
+                [(ngModel)]="createPassword"
+                class="form-control"
+                placeholder="Enter password"
+                required
+              />
+              <small>Choose a strong password</small>
+            </div>
+
+            <div class="form-group">
+              <label for="createConfirmPassword">Confirm Password</label>
+              <input
+                type="password"
+                id="createConfirmPassword"
+                name="createConfirmPassword"
+                [(ngModel)]="createConfirmPassword"
+                class="form-control"
+                placeholder="Confirm password"
+                required
+              />
+              <small>Please confirm the password</small>
+            </div>
+
+            <div *ngIf="createError()" class="error-message">
+              <div class="alert alert-error">
+                <strong>Error:</strong> {{ createError() }}
+              </div>
+            </div>
+
+            <div *ngIf="createSuccess()" class="success-message">
+              <div class="alert alert-success">
+                <strong>Success:</strong> {{ createSuccess() }}
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="!isCreateFormValid() || userService.getIsLoading()()"
+              >
+                <span
+                  *ngIf="userService.getIsLoading()()"
+                  class="spinner"
+                ></span>
+                {{ userService.getIsLoading()() ? 'Creating...' : 'Create User' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

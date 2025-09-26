@@ -1,0 +1,93 @@
+<div class="connect-server-container">
+  <div class="connect-server-card">
+    <h2>Connect to Server</h2>
+
+    <form (ngSubmit)="login()" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="serverUrl">Server URL:</label>
+        <input
+          type="text"
+          id="serverUrl"
+          name="serverUrl"
+          [(ngModel)]="serverUrl"
+          placeholder="http://localhost:3000"
+          required
+          (blur)="testConnection()"
+          (input)="onServerUrlChange()"
+        />
+        <button
+          type="button"
+          class="test-btn"
+          (click)="testConnection()"
+          [disabled]="isConnecting()"
+        >
+          {{ isConnecting() ? 'Testing...' : 'Test Connection' }}
+        </button>
+      </div>
+
+      <!-- Connection Test Results - Right below server URL -->
+      <div class="connection-results">
+        <!-- Success Message -->
+        <div class="success-message" *ngIf="connectionSuccess()">
+          <div class="success-content">
+            <span class="success-icon">✅</span>
+            <span class="success-text">{{ successMessage() }}</span>
+          </div>
+        </div>
+
+        <!-- Connection Error -->
+        <div class="error-message" *ngIf="connectionError()">
+          <span class="error-icon">❌</span>
+          <span class="error-text">{{ connectionError() }}</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          [(ngModel)]="username"
+          placeholder="Enter username"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          placeholder="Enter password"
+          required
+        />
+      </div>
+
+      <!-- Authentication Error - Above login button -->
+      <div class="auth-error" *ngIf="loginError()">
+        <div class="error-content">
+          <span class="error-icon">🔐</span>
+          <span class="error-text">{{ loginError() }}</span>
+        </div>
+        <button
+          type="button"
+          class="clear-auth-error-btn"
+          (click)="clearErrors()"
+        >
+          Clear
+        </button>
+      </div>
+
+      <button
+        type="submit"
+        class="login-btn"
+        [disabled]="isLoggingIn() || !loginForm.form.valid"
+      >
+        {{ isLoggingIn() ? 'Logging in...' : 'Login' }}
+      </button>
+    </form>
+  </div>
+</div>
