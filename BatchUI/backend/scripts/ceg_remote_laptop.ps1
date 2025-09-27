@@ -1,5 +1,4 @@
 # Later: Load the encrypted password
-$username = "palyam\adixit"
 $securePassword = Get-Content "D:\batchui\password.txt" | ConvertTo-SecureString
 $cred = New-Object System.Management.Automation.PSCredential($username, $securePassword)
 
