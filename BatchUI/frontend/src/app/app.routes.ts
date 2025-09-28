@@ -8,6 +8,8 @@ import { Runs } from './components/runs/runs';
 import { CleanupComponent } from './components/cleanup/cleanup';
 import { ConnectServerComponent } from './connect-server/connect-server';
 import { UserInfoComponent } from './components/user-info/user-info';
+import { PythonProfileModule } from './components/python-profile/python-profile.module';
+import { PythonProfileComponent } from './components/python-profile/python-profile';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -59,6 +61,11 @@ export const routes: Routes = [
   {
     path: 'logs',
     component: ScriptLogs,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'python-profile',
+    component: PythonProfileComponent,
     canActivate: [authGuard],
   },
   {
