@@ -1,11 +1,9 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { PythonProfileService } from '../../services/python-profile.service';
-import { catchError, finalize } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 interface ProfileData {
   cumulative_time: number;   // seconds
@@ -48,7 +46,7 @@ interface PerformanceInsight {
   templateUrl: './python-profile.html',
   styleUrls: ['./python-profile.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule, RouterModule]
+  imports: [CommonModule, FormsModule, RouterModule]
 })
 export class PythonProfileComponent implements OnInit {
   title = 'profile-comparison-tool';
