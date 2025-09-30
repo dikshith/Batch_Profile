@@ -35,7 +35,7 @@ app.config['PROFILES_STORAGE_DIR'] = 'profile_data'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 # Initialize CORS
-CORS(app, supports_credentials=True, origins=['http://localhost:4200'])
+CORS(app, supports_credentials=True, origins=['*'])
 
 # Ensure directories exist
 os.makedirs(app.config['SESSION_FILE_DIR'], exist_ok=True)
