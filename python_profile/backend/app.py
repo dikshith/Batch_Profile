@@ -132,6 +132,128 @@ def cleanup_expired_sessions():
     except Exception as e:
         print(f"Cleanup error: {e}")
 
+def is_builtin_function(filename, function_name):
+    """Enhanced detection of built-in functions"""
+    builtin_patterns = [
+        '<built-in>',
+        '<method',
+        '~',
+        '<frozen',
+        '<string>',
+        '{built-in method',
+        '{method'
+    ]
+    
+    builtin_names = [
+        'len', 'str', 'int', 'float', 'bool', 'list', 'dict', 'tuple', 'set',
+        'range', 'enumerate', 'zip', 'map', 'filter', 'sorted', 'sum', 'min', 'max',
+        'abs', 'round', 'pow', 'divmod', 'isinstance', 'hasattr', 'getattr', 'setattr',
+        'delattr', 'callable', 'iter', 'next', 'repr', 'ord', 'chr', 'hex', 'oct',
+        'bin', 'hash', 'id', 'type', 'vars', 'dir', 'help', 'print', 'input',
+        'open', 'compile', 'eval', 'exec', 'globals', 'locals'
+    ]
+    
+    # Check filename patterns
+    for pattern in builtin_patterns:
+        if pattern in filename:
+            return True
+    
+    # Check function name patterns
+    if function_name in builtin_names:
+        return True
+        
+    # Check for special method names
+    if function_name.startswith('__') and function_name.endswith('__'):
+        return True
+        
+    return False
+
+def is_standard_library_function(filename):
+    """Check if function is from Python standard library"""
+    stdlib_patterns = [
+        '/python',
+        '\\python',
+        'site-packages',
+        '/usr/lib/python',
+        '/Library/Frameworks/Python',
+        'anaconda',
+        'miniconda',
+        'conda',
+        'importlib',
+        'pkgutil',
+        'encodings',
+        'codecs',
+        'collections',
+        're.py',
+        'json/',
+        'urllib/',
+        'http/',
+        'email/',
+        'xml/',
+        'logging/',
+        'threading.py',
+        'queue.py',
+        'os.py',
+        'sys.py',
+        'time.py',
+        'datetime.py',
+        'random.py',
+        'math.py',
+        'statistics.py',
+        'pathlib.py',
+        'shutil.py',
+        'tempfile.py',
+        'functools.py',
+        'itertools.py',
+        'operator.py'
+    ]
+    
+    filename_lower = filename.lower()
+    return any(pattern.lower() in filename_lower for pattern in stdlib_patterns)
+
+def is_third_party_library_function(filename):
+    """Check if function is from a third-party library"""
+    third_party_patterns = [
+        'site-packages/',
+        'dist-packages/',
+        'lib/python',
+        'flask',
+        'django',
+        'requests',
+        'numpy',
+        'pandas',
+        'scipy',
+        'matplotlib',
+        'seaborn',
+        'sklearn',
+        'tensorflow',
+        'torch',
+        'keras',
+        'pillow',
+        'opencv',
+        'sqlalchemy',
+        'psycopg2',
+        'pymongo',
+        'redis',
+        'celery',
+        'gunicorn',
+        'uwsgi'
+    ]
+    
+    filename_lower = filename.lower()
+    return any(pattern.lower() in filename_lower for pattern in third_party_patterns)
+
+def get_function_category(filename, function_name):
+    """Categorize function into user, builtin, stdlib, or third_party"""
+    if is_builtin_function(filename, function_name):
+        return 'builtin'
+    elif is_standard_library_function(filename):
+        return 'stdlib'
+    elif is_third_party_library_function(filename):
+        return 'third_party'
+    else:
+        return 'user'
+
 def parse_profile_file(filepath):
     """Parse different types of Python profiling files"""
     try:
@@ -146,12 +268,27 @@ def parse_profile_file(filepath):
         stats.sort_stats('cumulative')
         
         for func_name, func_stats in list(stats.stats.items())[:50]:
+            filename, line_num, function_name = func_name
+            full_name = f"{filename}:{line_num}({function_name})"
+            
+            # Enhanced categorization of function types
+            is_builtin = is_builtin_function(filename, function_name)
+            is_stdlib = is_standard_library_function(filename)
+            is_third_party = is_third_party_library_function(filename)
+            
             profile_data['functions'].append({
-                'name': f"{func_name[0]}:{func_name[1]}({func_name[2]})",
+                'name': full_name,
+                'filename': filename,
+                'line_number': line_num,
+                'function_name': function_name,
                 'calls': func_stats[0],
                 'total_time': func_stats[2],
                 'cumulative_time': func_stats[3],
-                'per_call': func_stats[3] / func_stats[0] if func_stats[0] > 0 else 0
+                'per_call': func_stats[3] / func_stats[0] if func_stats[0] > 0 else 0,
+                'is_builtin': is_builtin,
+                'is_stdlib': is_stdlib,
+                'is_third_party': is_third_party,
+                'category': get_function_category(filename, function_name)
             })
         
         return profile_data

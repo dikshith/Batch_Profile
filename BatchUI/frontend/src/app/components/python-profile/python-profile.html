@@ -134,6 +134,10 @@
             <tbody>
               <tr *ngFor="let func of getFilteredFunctions()" 
                   [class.builtin-method]="func.isBuiltin"
+                  [class.category-user]="func.category === 'user'"
+                  [class.category-third-party]="func.category === 'third_party'"
+                  [class.category-stdlib]="func.category === 'stdlib'"
+                  [class.category-builtin]="func.category === 'builtin'"
                   (click)="selectFunction(func)">
                 <td class="function-info">
                   <div class="function-name">{{ func.name }}</div>
@@ -228,7 +232,7 @@
 <!-- Settings Panel -->
 <div class="settings-panel" [class.open]="showSettings">
   <div class="settings-header">
-    <h3>Settings</h3>
+    <h3>Filters & Settings</h3>
     <button class="btn-close" (click)="toggleSettings()">×</button>
   </div>
   <div class="settings-content">
@@ -242,10 +246,35 @@
     </div>
     
     <div class="setting-group">
-      <label class="checkbox-label">
-        <input type="checkbox" [(ngModel)]="showBuiltinMethods" class="form-check">
-        Show built-in methods
-      </label>
+      <label>Function Categories:</label>
+      <div class="checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="showUserMethods" class="form-check">
+          <span class="category-user">User Code</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="showThirdPartyMethods" class="form-check">
+          <span class="category-third-party">Third-party Libraries</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="showStdlibMethods" class="form-check">
+          <span class="category-stdlib">Standard Library</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="showBuiltinMethods" class="form-check">
+          <span class="category-builtin">Built-in Methods</span>
+        </label>
+      </div>
+    </div>
+    
+    <div class="setting-group">
+      <label>Minimum execution time (seconds):</label>
+      <input type="number" 
+             [(ngModel)]="filterThreshold" 
+             step="0.001" 
+             min="0" 
+             class="form-control"
+             placeholder="0.001">
     </div>
     
     <div class="setting-group">

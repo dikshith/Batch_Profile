@@ -11,12 +11,22 @@ interface ProfileData {
   per_call: number;   // seconds
   total_time: number;   // seconds
   name?: string;
+  filename?: string;
+  line_number?: number;
+  function_name?: string;
+  is_builtin?: boolean;
+  is_stdlib?: boolean;
+  is_third_party?: boolean;
+  category?: 'builtin' | 'stdlib' | 'third_party' | 'user';
 }
 interface FunctionProfile {
   id: number;
   name: string;
   filePath: string;
   isBuiltin: boolean;
+  isStdlib: boolean;
+  isThirdParty: boolean;
+  category: 'builtin' | 'stdlib' | 'third_party' | 'user';
   profiles: { [key: string]: ProfileData | null }; // profile_1, profile_2, ...
 }
 interface ComparisonSummary {
@@ -72,6 +82,9 @@ export class PythonProfileComponent implements OnInit {
   // Settings
   displayPrecision = 3;
   showBuiltinMethods = true;
+  showStdlibMethods = true;
+  showThirdPartyMethods = true;
+  showUserMethods = true;
   highlightDifferences = true;
 
   // Selected row
@@ -221,11 +234,12 @@ export class PythonProfileComponent implements OnInit {
     // Add common functions
     if (response.comparison.common_functions) {
       response.comparison.common_functions.forEach((func: any) => {
+        const categorization = this.categorizeFunction(func.name);
         functions.push({
           id: id++,
           name: func.name,
           filePath: func.name.split('(')[0].split(':')[0],
-          isBuiltin: func.name.includes('<built-in>') || func.name.includes('<method'),
+          ...categorization,
           profiles: func.profiles
         });
       });
@@ -235,11 +249,12 @@ export class PythonProfileComponent implements OnInit {
     if (response.comparison.unique_functions.profile_1) {
       response.comparison.unique_functions.profile_1.forEach((func: any) => {
         const data = func.data;
+        const categorization = this.categorizeFunction(func.name);
         functions.push({
           id: id++,
           name: func.name,
           filePath: func.name.split('(')[0].split(':')[0],
-          isBuiltin: func.name.includes('<built-in>') || func.name.includes('<method'),
+          ...categorization,
           profiles: {
             'profile_1': {
               cumulative_time: data.cumulative_time,
@@ -259,11 +274,12 @@ export class PythonProfileComponent implements OnInit {
     if (response.comparison.unique_functions.profile_2) {
       response.comparison.unique_functions.profile_2.forEach((func: any) => {
         const data = func.data;
+        const categorization = this.categorizeFunction(func.name);
         functions.push({
           id: id++,
           name: func.name.split('(')[0].split(':')[1] || func.name,
           filePath: func.name.split('(')[0].split(':')[0],
-          isBuiltin: func.name.includes('<built-in>') || func.name.includes('<method'),
+          ...categorization,
           profiles: {
             'profile_1': null,
             'profile_2': {
@@ -283,11 +299,12 @@ export class PythonProfileComponent implements OnInit {
     if (response.comparison.unique_functions.profile_3) {
       response.comparison.unique_functions.profile_3.forEach((func: any) => {
         const data = func.data;
+        const categorization = this.categorizeFunction(func.name);
         functions.push({
           id: id++,
           name: func.name,
           filePath: func.name.split('(')[0].split(':')[0],
-          isBuiltin: func.name.includes('<built-in>') || func.name.includes('<method'),
+          ...categorization,
           profiles: {
             'profile_1': null,
             'profile_2': null,
@@ -306,17 +323,112 @@ export class PythonProfileComponent implements OnInit {
     return functions;
   }
 
+  private categorizeFunction(funcName: string): {
+    isBuiltin: boolean;
+    isStdlib: boolean;
+    isThirdParty: boolean;
+    category: 'builtin' | 'stdlib' | 'third_party' | 'user';
+  } {
+    const name = funcName.toLowerCase();
+    
+    // Enhanced built-in detection
+    const builtinPatterns = [
+      '<built-in>',
+      '<method',
+      '~',
+      '<frozen',
+      '<string>',
+      '{built-in method',
+      '{method'
+    ];
+    
+    // Standard library patterns
+    const stdlibPatterns = [
+      'python3.',
+      'python/',
+      'lib/python',
+      'site-packages',
+      '/usr/lib/python',
+      'importlib',
+      'pkgutil',
+      'encodings',
+      'codecs',
+      'collections',
+      're.py',
+      'json/',
+      'urllib/',
+      'logging/',
+      'threading.py',
+      'os.py',
+      'sys.py'
+    ];
+    
+    // Third-party library patterns
+    const thirdPartyPatterns = [
+      'site-packages/',
+      'dist-packages/',
+      'flask',
+      'django',
+      'requests',
+      'numpy',
+      'pandas',
+      'scipy',
+      'matplotlib',
+      'sklearn',
+      'tensorflow',
+      'torch'
+    ];
+    
+    // Check for built-in
+    const isBuiltin = builtinPatterns.some(pattern => name.includes(pattern.toLowerCase())) ||
+                     funcName.includes('__') && funcName.endsWith('__');
+    
+    // Check for standard library
+    const isStdlib = stdlibPatterns.some(pattern => name.includes(pattern.toLowerCase()));
+    
+    // Check for third-party
+    const isThirdParty = thirdPartyPatterns.some(pattern => name.includes(pattern.toLowerCase()));
+    
+    let category: 'builtin' | 'stdlib' | 'third_party' | 'user';
+    if (isBuiltin) {
+      category = 'builtin';
+    } else if (isStdlib) {
+      category = 'stdlib';
+    } else if (isThirdParty) {
+      category = 'third_party';
+    } else {
+      category = 'user';
+    }
+    
+    return { isBuiltin, isStdlib, isThirdParty, category };
+  }
+
 
   // Filtering & sorting
   public getFilteredFunctions(): FunctionProfile[] {
     let fns = [...(this.comparisonResults()?.functions || [])];
     console.log("fns : ", fns);
 
-    if (!this.showBuiltinMethods) fns = fns.filter(f => !f.isBuiltin);
+    // Apply category filters
+    fns = fns.filter(f => {
+      switch (f.category) {
+        case 'builtin':
+          return this.showBuiltinMethods;
+        case 'stdlib':
+          return this.showStdlibMethods;
+        case 'third_party':
+          return this.showThirdPartyMethods;
+        case 'user':
+          return this.showUserMethods;
+        default:
+          return true;
+      }
+    });
 
-    /* fns = fns.filter(f => Object.values(f.profiles)
-      .some(p => p != null && (p as ProfileData).cumTime >= this.filterThreshold));
- */
+    // Apply time threshold filter
+    fns = fns.filter(f => Object.values(f.profiles)
+      .some(p => p != null && (p as ProfileData).cumulative_time >= this.filterThreshold));
+
     fns.sort((a, b) => {
       let aValue: any, bValue: any;
       switch (this.sortBy) {
