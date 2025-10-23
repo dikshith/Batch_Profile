@@ -2,10 +2,16 @@
   <div class="section-header">
     <div class="header-left">
       <h2>Python Profile Analysis</h2>
-      <p class="section-description">Compare and analyze Python profile dumps</p>
+      <p class="section-description">
+        Compare and analyze Python profile dumps
+      </p>
     </div>
     <div class="header-actions">
-      <button class="btn btn-primary" (click)="exportResults()" [disabled]="!comparisonResults()">
+      <button
+        class="btn btn-primary"
+        (click)="exportResults()"
+        [disabled]="!comparisonResults()"
+      >
         <span class="icon">⬇️</span> Export
       </button>
       <button class="btn btn-primary" (click)="toggleSettings()">
@@ -17,24 +23,27 @@
   <div class="content-wrapper">
     <!-- Tab Navigation -->
     <nav class="tab-nav">
-      <button 
-        class="tab-btn" 
+      <button
+        class="tab-btn"
         [class.active]="activeTab === 'upload'"
-        (click)="setActiveTab('upload')">
+        (click)="setActiveTab('upload')"
+      >
         Upload Profiles
       </button>
-      <button 
-        class="tab-btn" 
+      <button
+        class="tab-btn"
         [class.active]="activeTab === 'comparison'"
         (click)="setActiveTab('comparison')"
-        [disabled]="!comparisonResults">
+        [disabled]="!comparisonResults()"
+      >
         Function Comparison
       </button>
-      <button 
-        class="tab-btn" 
+      <button
+        class="tab-btn"
         [class.active]="activeTab === 'analysis'"
         (click)="setActiveTab('analysis')"
-        [disabled]="!comparisonResults()">
+        [disabled]="!comparisonResults()"
+      >
         Performance Analysis
       </button>
     </nav>
@@ -43,21 +52,32 @@
     <div *ngIf="activeTab === 'upload'" class="tab-content">
       <div class="upload-section">
         <div class="profile-uploads">
-          <div class="profile-upload" *ngFor="let profile of profileSlots; let i = index">
+          <div
+            class="profile-upload"
+            *ngFor="let profile of profileSlots; let i = index"
+          >
             <div class="upload-card" [class.has-file]="profile.file">
               <div class="upload-header">
                 <h3>Profile {{ i + 1 }}</h3>
-                <button *ngIf="profile.file" class="btn-remove" (click)="removeProfile(i)">×</button>
+                <button
+                  *ngIf="profile.file"
+                  class="btn-remove"
+                  (click)="removeProfile(i)"
+                >
+                  ×
+                </button>
               </div>
-              
+
               <div class="upload-content" *ngIf="!profile.file">
                 <div class="upload-icon">📁</div>
                 <p>Drop profile file here or click to browse</p>
-                <input type="file" 
-                       #fileInput
-                       (change)="onFileSelected($event, i)"
-                       accept=".prof,.pstats,.profile"
-                       class="file-input">
+                <input
+                  type="file"
+                  #fileInput
+                  (change)="onFileSelected($event, i)"
+                  accept=".prof,.pstats,.profile"
+                  class="file-input"
+                />
                 <button class="btn btn-primary" (click)="fileInput.click()">
                   Choose File
                 </button>
@@ -76,7 +96,10 @@
           </div>
         </div>
 
-        <div class="comparison-controls" *ngIf="getUploadedProfiles().length >= 2">
+        <div
+          class="comparison-controls"
+          *ngIf="getUploadedProfiles().length >= 2"
+        >
           <button class="btn btn-success btn-large" (click)="runComparison()">
             <i class="icon-play"></i>
             Run Comparison
@@ -99,7 +122,7 @@
               <option value="function">Function Name</option>
             </select>
           </div>
-          
+
           <div class="control-group">
             <label>Order:</label>
             <select [(ngModel)]="sortOrder" (change)="sortResults()">
@@ -107,14 +130,16 @@
               <option value="asc">Ascending</option>
             </select>
           </div>
-          
+
           <div class="control-group">
             <label>Min Time (ms):</label>
-            <input type="number" 
-                   [(ngModel)]="filterThreshold" 
-                   (change)="applyFilter()"
-                   min="0" 
-                   step="0.001">
+            <input
+              type="number"
+              [(ngModel)]="filterThreshold"
+              (change)="applyFilter()"
+              min="0"
+              step="0.001"
+            />
           </div>
         </div>
 
@@ -125,44 +150,60 @@
             <thead>
               <tr>
                 <th class="function-col">Function</th>
-                <th *ngFor="let profile of getUploadedProfiles(); let i = index" 
-                    class="profile-col">
+                <th
+                  *ngFor="let profile of getUploadedProfiles(); let i = index"
+                  class="profile-col"
+                >
                   profile_{{ i + 1 }}
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let func of getFilteredFunctions()" 
-                  [class.builtin-method]="func.isBuiltin"
-                  [class.category-user]="func.category === 'user'"
-                  [class.category-third-party]="func.category === 'third_party'"
-                  [class.category-stdlib]="func.category === 'stdlib'"
-                  [class.category-builtin]="func.category === 'builtin'"
-                  (click)="selectFunction(func)">
+              <tr
+                *ngFor="let func of getFilteredFunctions()"
+                [class.builtin-method]="func.isBuiltin"
+                [class.category-user]="func.category === 'user'"
+                [class.category-third-party]="func.category === 'third_party'"
+                [class.category-stdlib]="func.category === 'stdlib'"
+                [class.category-builtin]="func.category === 'builtin'"
+                (click)="selectFunction(func)"
+              >
                 <td class="function-info">
                   <div class="function-name">{{ func.name }}</div>
-                  <div class="file-path" *ngIf="func.filePath">{{ func.filePath }}</div>
+                  <div class="file-path" *ngIf="func.filePath">
+                    {{ func.filePath }}
+                  </div>
                 </td>
 
                 <!-- FIXED profile cell with null-safe narrowing -->
-                  <td *ngFor="let profile of getUploadedProfiles(); let i = index" 
-                      class="profile-data"
-                      [class.profile-highlight]="!!getProfileData(func, i)"
-                      [class.profile-2-highlight]="i === 1 && !!getProfileData(func, i)"
-                      [class.profile-3-highlight]="i === 2 && !!getProfileData(func, i)">
-
-                  <div *ngIf="getProfileData(func, i) as pf; else notCalled" class="profile-stats">
+                <td
+                  *ngFor="let profile of getUploadedProfiles(); let i = index"
+                  class="profile-data"
+                  [class.profile-highlight]="!!getProfileData(func, i)"
+                  [class.profile-2-highlight]="i === 1 && !!getProfileData(func, i)"
+                  [class.profile-3-highlight]="i === 2 && !!getProfileData(func, i)"
+                >
+                  <div
+                    *ngIf="getProfileData(func, i) as pf; else notCalled"
+                    class="profile-stats"
+                  >
                     <div class="stat-row">
                       <span class="stat-label">Cum. Time:</span>
-                      <span class="stat-value">{{ formatTime(pf.cumulative_time) }}</span>
+                      <span class="stat-value"
+                        >{{ formatTime(pf.cumulative_time) }}</span
+                      >
                     </div>
                     <div class="stat-row">
                       <span class="stat-label">Calls:</span>
-                      <span class="stat-value">{{ formatCalls(pf.calls) }}</span>
+                      <span class="stat-value"
+                        >{{ formatCalls(pf.calls) }}</span
+                      >
                     </div>
                     <div class="stat-row">
                       <span class="stat-label">Per Call:</span>
-                      <span class="stat-value">{{ formatTime(pf.per_call) }}</span>
+                      <span class="stat-value"
+                        >{{ formatTime(pf.per_call) }}</span
+                      >
                     </div>
                   </div>
 
@@ -187,10 +228,12 @@
             <div class="card-icon">📊</div>
             <div class="card-content">
               <h3>Total Functions</h3>
-              <p class="card-value">{{ comparisonResults()?.summary?.totalFunctions || 0 }}</p>
+              <p class="card-value">
+                {{ comparisonResults()?.summary?.totalFunctions || 0 }}
+              </p>
             </div>
           </div>
-          
+
           <div class="summary-card">
             <div class="card-icon">⚡</div>
             <div class="card-content">
@@ -200,12 +243,14 @@
               </p>
             </div>
           </div>
-          
+
           <div class="summary-card">
             <div class="card-icon">⚠️</div>
             <div class="card-content">
               <h3>Significant Changes</h3>
-              <p class="card-value">{{ comparisonResults()?.summary?.significantDifferences || 0 }}</p>
+              <p class="card-value">
+                {{ comparisonResults()?.summary?.significantDifferences || 0 }}
+              </p>
             </div>
           </div>
         </div>
@@ -214,7 +259,10 @@
         <div class="insights-section">
           <h3>Performance Insights</h3>
           <div class="insight-cards">
-            <div class="insight-card critical" *ngFor="let insight of getPerformanceInsights()">
+            <div
+              class="insight-card critical"
+              *ngFor="let insight of getPerformanceInsights()"
+            >
               <div class="insight-header">
                 <span class="insight-type">{{ insight.type }}</span>
                 <span class="insight-impact">{{ insight.impact }}</span>
@@ -244,42 +292,64 @@
         <option value="4">4 decimal places</option>
       </select>
     </div>
-    
+
     <div class="setting-group">
       <label>Function Categories:</label>
       <div class="checkbox-group">
         <label class="checkbox-label">
-          <input type="checkbox" [(ngModel)]="showUserMethods" class="form-check">
+          <input
+            type="checkbox"
+            [(ngModel)]="showUserMethods"
+            class="form-check"
+          />
           <span class="category-user">User Code</span>
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" [(ngModel)]="showThirdPartyMethods" class="form-check">
+          <input
+            type="checkbox"
+            [(ngModel)]="showThirdPartyMethods"
+            class="form-check"
+          />
           <span class="category-third-party">Third-party Libraries</span>
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" [(ngModel)]="showStdlibMethods" class="form-check">
+          <input
+            type="checkbox"
+            [(ngModel)]="showStdlibMethods"
+            class="form-check"
+          />
           <span class="category-stdlib">Standard Library</span>
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" [(ngModel)]="showBuiltinMethods" class="form-check">
+          <input
+            type="checkbox"
+            [(ngModel)]="showBuiltinMethods"
+            class="form-check"
+          />
           <span class="category-builtin">Built-in Methods</span>
         </label>
       </div>
     </div>
-    
+
     <div class="setting-group">
       <label>Minimum execution time (seconds):</label>
-      <input type="number" 
-             [(ngModel)]="filterThreshold" 
-             step="0.001" 
-             min="0" 
-             class="form-control"
-             placeholder="0.001">
+      <input
+        type="number"
+        [(ngModel)]="filterThreshold"
+        step="0.001"
+        min="0"
+        class="form-control"
+        placeholder="0.001"
+      />
     </div>
-    
+
     <div class="setting-group">
       <label class="checkbox-label">
-        <input type="checkbox" [(ngModel)]="highlightDifferences" class="form-check">
+        <input
+          type="checkbox"
+          [(ngModel)]="highlightDifferences"
+          class="form-check"
+        />
         Highlight significant differences
       </label>
     </div>
